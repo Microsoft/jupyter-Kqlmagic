@@ -563,7 +563,7 @@ class ResultSet(list, ColumnGuesserMixin):
                     prettytable_style_raw = self.options.get("prettytable_style", "DEFAULT").upper()
                     prettytable_style = (
                         prettytable.TableStyle.DEFAULT
-                        if prettytable_style_raw not in prettytable.TableStyle
+                        if prettytable_style_raw not in prettytable.TableStyle.__members__
                         else prettytable.TableStyle[prettytable_style_raw]
                     )
                     self.pretty = PrettyTable(self.field_names) if len(self.field_names) > 0 else None
