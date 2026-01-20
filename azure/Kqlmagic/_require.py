@@ -46,7 +46,7 @@ _AUTH_REQUIRES = [
 ]
 
 _PRETTY_TABLE_RQUIRES = [ 
-    'prettytable>=0.7.2',    
+    'prettytable>=3.12.0',    
 ]
 
 _BASIC_REQUIRES = list_union(_ONLINE_REQUIRES, _AUTH_REQUIRES, _PRETTY_TABLE_RQUIRES)
