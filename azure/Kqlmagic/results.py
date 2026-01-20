@@ -559,8 +559,15 @@ class ResultSet(list, ColumnGuesserMixin):
             if prettytable:
                 if self.pretty is None:
                     # table printing style to any of prettytable's defined styles (currently DEFAULT, MSWORD_FRIENDLY, PLAIN_COLUMNS, RANDOM)
-                    prettytable_style = prettytable.__dict__[self.options.get("prettytable_style", "DEFAULT").upper()]
-                    self.pretty = PrettyTable(self.field_names, style=prettytable_style) if len(self.field_names) > 0 else None
+                    # Since prettytable 3.12.0, table style has been moved to a enum TableStyle
+                    prettytable_style_raw = self.options.get("prettytable_style", "DEFAULT").upper()
+                    prettytable_style = (
+                        prettytable.TableStyle.DEFAULT
+                        if prettytable_style_raw not in prettytable.TableStyle.__members__
+                        else prettytable.TableStyle[prettytable_style_raw]
+                    )
+                    self.pretty = PrettyTable(self.field_names) if len(self.field_names) > 0 else None
+                    self.pretty.set_style(prettytable_style)
 
                 self.pretty.add_rows(table)
                 result = self.pretty.get_html_string()
